@@ -1,0 +1,30 @@
+name: 🚀 Tessarion-X Auto Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: 🔄 Deploy Tessarion-X Theme via FTP
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: ⬇️ Checkout Repo
+        uses: actions/checkout@v4
+
+      - name: 🚀 Deploy to Live Server via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        with:
+          server: ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          server-dir: ${{ secrets.FTP_TARGET }}
+          local-dir: ./tessarionx-theme
+          exclude: |
+            **/.git*
+            **/.github*
+            **/README.md
+            **/LICENSE
+            node_modules/
